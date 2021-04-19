@@ -3,6 +3,7 @@ import './Banner.css'
 import axios from './axios'
 import requests from './Requests'
 import movieTrailer from 'movie-trailer';
+import YouTube from 'react-youtube';
 function Banner() {
 
     const [movie,setMovie]=useState([]);
@@ -40,13 +41,22 @@ function Banner() {
         })
         .catch(error=>console.log(error))
     }
+
+    const opts = {
+        height:"450",
+        width:"100%",
+        playerVars:{
+          autoplay:1,
+        },
+      };
     return (
         <>
         <header className="banner" style={{
             backgroundSize:'cover',
             backgroundImage: `url("https://image.tmdb.org/t/p/original/${movie?.backdrop_path}")`,
-            backgroundPosition:'center center'
-        }}>
+
+            backgroundPosition:'center center',
+             }}>     
            <div className="banner__contents">
                 <h1 className="banner__title">
                     {movie?.title || movie?.name || movie?.original}
@@ -59,10 +69,10 @@ function Banner() {
             </div> 
             <div className="banner--fadeBottom"/>
         </header>
-                <iframe width="400px" height="300px" style={{position:'absolute',top:'50px',right:'50px',display:url===''?'none':''}}
-                    src={`https://www.youtube.com/embed/${url}?autoplay=1&mute=0`} >
-                </iframe>
-                </>
+        <div style={{display:url===''?'none':''}}>
+            <YouTube videoId={url} opts={opts}/>
+        </div>
+        </>
     )
 }
 
